@@ -1,133 +1,121 @@
-// Player Variables
-let playerRock = document.getElementById("rockplayer");
-let playerPaper = document.getElementById("paperplayer");
-let playerScissors = document.getElementById("scissorplayer");
-let playerFinal = "";
-let p;
-
-
-// CPU Variables
-let cpuRock = document.getElementById("rockcom");
-let cpuPaper = document.getElementById("papercom");
-let cpuScissors = document.getElementById("scissorcom");
-let cpuFinal = "";
-let c;
-
-// Result
-let results = document.getElementById("result");
-
-// Reset
-let refresh = document.getElementById("refresh");
-refresh.addEventListener("click", function(){
-  reset()
-});
-
-
-// Get Player Choice On Click
-function selectPlayer(p) {
-  if (p === 0) {
-    playerFinal = "Rock";
-    rockplayer.style.backgroundColor = "#C4C4C4";
-    rockplayer.style.padding = "10px";
-    rockplayer.style.borderRadius = "10px";
-  }
-  if (p === 1) {
-    playerFinal = "Paper";
-    paperplayer.style.backgroundColor = "#C4C4C4";
-    paperplayer.style.padding = "10px";
-    paperplayer.style.borderRadius = "10px";
-  }
-  if (p === 2) {
-    playerFinal = "Scissors";
-    scissorplayer.style.backgroundColor = "#C4C4C4";
-    scissorplayer.style.padding = "10px";
-    scissorplayer.style.borderRadius = "10px";
-  }
-  selectCPU();
+class Game {
+    constructor() {
+      // Player Variables
+      this.playerRock = document.getElementById("rockplayer");
+      this.playerPaper = document.getElementById("paperplayer");
+      this.playerScissors = document.getElementById("scissorplayer");
+      this.playerFinal = "";
+  
+      // CPU Variables
+      this.cpuRock = document.getElementById("rockcom");
+      this.cpuPaper = document.getElementById("papercom");
+      this.cpuScissors = document.getElementById("scissorcom");
+      this.cpuFinal = "";
+  
+      // Result
+      this.results = document.getElementById("result");
+  
+      // Reset
+      let refresh = document.getElementById("refresh");
+      refresh.addEventListener("click", () => {
+        this.reset();
+      });
+  
+      this.playerRock.onclick = () => {
+        this.selectPlayer(0);
+      };
+      this.playerPaper.onclick = () => {
+        this.selectPlayer(1);
+      };
+      this.playerScissors.onclick = () => {
+        this.selectPlayer(2);
+      };
+    }
+  
+    selectPlayer(p) {
+      if (p === 0) {
+        this.playerFinal = "Rock";
+        this.playerRock.style.backgroundColor = "#C4C4C4";
+        this.playerRock.style.padding = "10px";
+        this.playerRock.style.borderRadius = "10px";
+      } else if (p === 1) {
+        this.playerFinal = "Paper";
+        this.playerPaper.style.backgroundColor = "#C4C4C4";
+        this.playerPaper.style.padding = "10px";
+        this.playerPaper.style.borderRadius = "10px";
+      } else if (p === 2) {
+        this.playerFinal = "Scissors";
+        this.playerScissors.style.backgroundColor = "#C4C4C4";
+        this.playerScissors.style.padding = "10px";
+        this.playerScissors.style.borderRadius = "10px";
+      }
+      this.selectCPU();
+    }
+  
+    selectCPU() {
+      let c = Math.floor(Math.random() * 3);
+      if (c === 0) {
+        this.cpuFinal = "Rock";
+        this.cpuRock.style.backgroundColor = "#C4C4C4";
+        this.cpuRock.style.padding = "10px";
+        this.cpuRock.style.borderRadius = "10px";
+      } else if (c === 1) {
+        this.cpuFinal = "Paper";
+        this.cpuPaper.style.backgroundColor = "#C4C4C4";
+        this.cpuPaper.style.padding = "10px";
+        this.cpuPaper.style.borderRadius = "10px";
+      } else if (c === 2) {
+        this.cpuFinal = "Scissors";
+        this.cpuScissors.style.backgroundColor = "#C4C4C4";
+        this.cpuScissors.style.padding = "10px";
+        this.cpuScissors.style.borderRadius = "10px";
+      }
+      this.playGame();
+    }
+  
+    playGame() {
+      if (
+        (this.playerFinal === "Rock" && this.cpuFinal === "Paper") ||
+        (this.playerFinal === "Paper" && this.cpuFinal === "Scissors") ||
+        (this.playerFinal === "Scissors" && this.cpuFinal === "Rock")
+      ) {
+        this.results.innerHTML = `<span class="winner">Computer<br>Win</span>`;
+      } else if (
+        (this.playerFinal === "Rock" && this.cpuFinal === "Scissors") ||
+        (this.playerFinal === "Paper" && this.cpuFinal === "Rock") ||
+        (this.playerFinal === "Scissors" && this.cpuFinal === "Paper")
+      ) {
+        this.results.innerHTML = `<span class="winner">Player Win</span>`;
+      } else {
+        this.results.innerHTML = `<span class="draw">DRAW</span>`;
+      }
+  
+      this.playerRock.onclick = null;
+      this.playerPaper.onclick = null;
+      this.playerScissors.onclick = null;
+    }
+  
+    reset() {
+      this.results.innerHTML = "VS";
+      this.cpuRock.style.backgroundColor = "transparent";
+      this.cpuPaper.style.backgroundColor = "transparent";
+      this.cpuScissors.style.backgroundColor = "transparent";
+      this.playerRock.style.backgroundColor = "transparent";
+      this.playerPaper.style.backgroundColor = "transparent";
+      this.playerScissors.style.backgroundColor = "transparent";
+  
+      this.playerRock.onclick = () => {
+        this.selectPlayer(0);
+      };
+      this.playerPaper.onclick = () => {
+        this.selectPlayer(1);
+      };
+      this.playerScissors.onclick = () => {
+        this.selectPlayer(2);
+      };
+    }
   }
   
-
-// Generate Computer Choice
-function selectCPU() {
-  c = Math.floor(Math.random() * 3);
-  if (c === 0) {
-    cpuFinal = "Rock";
-    cpuRock.style.backgroundColor = "#C4C4C4";
-    cpuRock.style.padding = "10px";
-    cpuRock.style.borderRadius = "10px";
-  }
-  if (c === 1) {
-    cpuFinal = "Paper";
-    cpuPaper.style.backgroundColor = "#C4C4C4";
-    cpuPaper.style.padding = "10px";
-    cpuPaper.style.borderRadius = "10px";
-  }
-  if (c === 2) {
-    cpuFinal = "Scissors";
-    cpuScissors.style.backgroundColor = "#C4C4C4";
-    cpuScissors.style.padding = "10px";
-    cpuScissors.style.borderRadius = "10px";
-  }
-  playGame();
-}
-
-// Compare selections
-function playGame() {
-  // If Rock:
-  if (playerFinal === "Rock" && cpuFinal === "Paper") {
-    results.innerHTML = `<span class="winner">  Computer 
-    <br>Win</span>`;
-  }
-  if (playerFinal === "Rock" && cpuFinal === "Scissors") {
-    results.innerHTML = `<span class="winner">Player Win</span>`;
-  }
-
-  // If Paper:
-  if (playerFinal === "Paper" && cpuFinal === "Rock") {
-    results.innerHTML = `<span class="winner">Player Win</span>`;
-  }
-  if (playerFinal === "Paper" && cpuFinal === "Scissors") {
-    results.innerHTML = `<span class="winner">  Computer 
-    <br>Win</span>`;
-  }
-
-  // If Scissors:
-  if (playerFinal === "Scissors" && cpuFinal === "Rock") {
-    results.innerHTML = `<span class="winner"> Computer 
-    <br>Win</span>`;
-  }
-  if (playerFinal === "Scissors" && cpuFinal === "Paper") {
-    results.innerHTML = `<span class="winner">Player Win</span>`;
-  }
-  // If Tie:
-  if (cpuFinal === playerFinal) {
-    results.innerHTML = `<span class="draw">DRAW</span>`;
-  }  
-
-// Disable player options:
-  playerRock.onclick = null;
-  playerPaper.onclick = null;
-  playerScissors.onclick = null;
-
-}
-
-//refresh function//
-function reset() {
-  results.innerHTML = "VS";
-  cpuRock.style.backgroundColor = "transparent";
-  cpuPaper.style.backgroundColor = "transparent";
-  cpuScissors.style.backgroundColor = "transparent";
-  rockplayer.style.backgroundColor = "transparent";
-  paperplayer.style.backgroundColor = "transparent";
-  scissorplayer.style.backgroundColor = "transparent";
-
-  playerRock.onclick = function() {
-    selectPlayer(0);
-  };
-  playerPaper.onclick = function() {
-    selectPlayer(1);
-  };
-  playerScissors.onclick = function() {
-    selectPlayer(2);
-  };
-  }
+  // Create an instance of the Game class
+  const game = new Game();
+  
